@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+/* next-themes toggles a `.dark` class on <html> — wire Tailwind's dark
+   variant to that instead of the OS media query, so the in-app toggle and
+   "system" option both work through the same mechanism. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --color-surface: #ffffff;
+  --color-surface-raised: #f7f7f7;
+  --color-ink: #0a0a0a;
+  --color-ink-muted: #52525b;
+  --color-border: rgb(10 10 10 / 0.1);
+  --color-signal-blue: #006ec3;
+  --color-signal-orange: #fc6028;
+}
+
+.dark {
+  --color-surface: #000000;
+  --color-surface-raised: #0a0a0a;
+  --color-ink: #f5f5f5;
+  --color-ink-muted: #a1a1aa;
+  --color-border: rgb(245 245 245 / 0.12);
+}
+
+@theme inline {
+  --color-surface: var(--color-surface);
+  --color-surface-raised: var(--color-surface-raised);
+  --color-ink: var(--color-ink);
+  --color-ink-muted: var(--color-ink-muted);
+  --color-border: var(--color-border);
+  --color-signal-blue: var(--color-signal-blue);
+  --color-signal-orange: var(--color-signal-orange);
+
+  --font-display: var(--font-space-grotesk), ui-sans-serif, sans-serif;
+  --font-body: var(--font-inter), ui-sans-serif, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+
+  --animate-marquee: marquee 28s linear infinite;
+  --animate-blink: blink 1s step-end infinite;
+  --animate-draw: draw 1.4s ease-out forwards;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes draw {
+  from {
+    stroke-dashoffset: var(--path-length, 1000);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  background-color: var(--color-surface);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+}
+
+::selection {
+  background-color: var(--color-signal-orange);
+  color: #ffffff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-signal-blue);
+  outline-offset: 3px;
+}
