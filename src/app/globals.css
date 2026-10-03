@@ -91,6 +91,20 @@ body {
   color: #ffffff;
 }
 
+/* Dot lattice for coloured panels. background-size tiles the gradient so the
+   dot spacing stays fixed regardless of the element's size, which matters for
+   the hero panel since its width animates — the dots reveal with the sweep
+   instead of stretching. */
+.dot-grid {
+  background-image: radial-gradient(
+    circle at center,
+    rgb(255 255 255 / 0.22) 1px,
+    transparent 1.5px
+  );
+  background-size: 1.25rem 1.25rem;
+  background-position: center;
+}
+
 :focus-visible {
   outline: 2px solid var(--color-signal-blue);
   outline-offset: 3px;

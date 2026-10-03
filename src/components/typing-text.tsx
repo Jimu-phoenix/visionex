@@ -8,12 +8,18 @@ export function TypingText({
   typingSpeed = 70,
   deletingSpeed = 40,
   pause = 1400,
+  loop = true,
+  showCursor = true,
   className,
 }: {
   words: string[];
   typingSpeed?: number;
   deletingSpeed?: number;
   pause?: number;
+  /** false = type the first word once and stop (a headline reveal), instead
+   * of cycling through `words` forever. */
+  loop?: boolean;
+  showCursor?: boolean;
   className?: string;
 }) {
   const prefersReducedMotion = useReducedMotion();
@@ -35,9 +41,10 @@ export function TypingText({
           () => setDisplay(current.slice(0, display.length + 1)),
           typingSpeed
         );
-      } else {
+      } else if (loop) {
         timeout = setTimeout(() => setPhase("pausing"), pause);
       }
+      // loop === false: fully typed, nothing further scheduled — it stops.
     } else if (phase === "pausing") {
       timeout = setTimeout(() => setPhase("deleting"), pause / 2);
     } else {
@@ -61,6 +68,7 @@ export function TypingText({
     typingSpeed,
     deletingSpeed,
     pause,
+    loop,
     prefersReducedMotion,
   ]);
 
@@ -69,11 +77,13 @@ export function TypingText({
   return (
     <span className={className}>
       {text}
-      <span
-        aria-hidden
-        className="ml-0.5 inline-block w-[2px] translate-y-[0.1em] bg-signal-orange align-middle animate-blink"
-        style={{ height: "0.85em" }}
-      />
+      {showCursor && (
+        <span
+          aria-hidden
+          className="ml-0.5 inline-block w-[2px] translate-y-[0.1em] bg-signal-orange align-middle animate-blink"
+          style={{ height: "0.85em" }}
+        />
+      )}
     </span>
   );
 }

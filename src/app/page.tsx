@@ -2,9 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { Nav } from "@/components/nav";
+import { Hero } from "@/components/hero";
 import { Reveal } from "@/components/reveal";
-import { TypingText } from "@/components/typing-text";
-import { TraceLine } from "@/components/trace-line";
+import { EMAIL, SOCIAL_LINKS } from "@/lib/contact";
 
 const STACK = [
   "Next.js",
@@ -18,39 +18,41 @@ const STACK = [
   "Node.js",
 ];
 
-const DOMAINS = [
-  {
-    id: "N.01",
-    title: "Web & SaaS",
-    body: "TrustLedger, a multi-tenant helpdesk platform, plus sites and web apps for local businesses — clean interfaces, no bloat.",
-  },
+const PILLARS = [
   {
     id: "N.02",
-    title: "Network education",
-    body: "A CCNA 200-301 series for Yaza IT Malawi — routing, switching, WLAN, and the topologies that make them make sense.",
+    title: "Development",
+    body: "Business websites for local clients, plus two products out of hackathons: TrustLedger, a financial reputation scoring platform for informal Malawian SMEs, and a Private Hostel Management System.",
   },
   {
     id: "N.03",
-    title: "3D & motion",
-    body: "Scenes like The Orbit, built with non-destructive modifiers and procedural materials only — no downloaded shortcuts.",
+    title: "Design",
+    body: "Graphic design across flat images and 3D work.",
+    href: "/gallery",
+    linkLabel: "View gallery",
+  },
+  {
+    id: "N.04",
+    title: "Tech Education",
+    body: "Tutoring at Yaza IT Malawi on CCNA 200-301, Mubas Innovations Hub on programming, and ElevatEd on networking.",
   },
 ];
 
 const WORK = [
   {
-    tag: "SaaS",
+    tag: "Fintech",
     title: "TrustLedger",
-    body: "A multi-tenant helpdesk product, from ticket lifecycle to tenant workspace to the control dashboard.",
+    body: "Financial reputation scoring for informal Malawian SMEs, started at the FINOVATE 2026 hackathon (MUBAS/CoSISS) and since grown into a multi-tenant helpdesk SaaS.",
   },
   {
-    tag: "Education",
-    title: "Yaza IT Malawi",
-    body: "CCNA 200-301 video series — scripts, branded decks, and practice topologies, module by module.",
+    tag: "Web app",
+    title: "Hostel Management System",
+    body: "Hostel search, tenant payment history, and an owner dashboard covering rent and monthly expenses.",
   },
   {
-    tag: "3D",
-    title: "The Orbit",
-    body: "A space scene for CIT-IMG-421 — five objects, five modifiers, built and demonstrated live in the viewport.",
+    tag: "Freelance",
+    title: "Business websites",
+    body: "Marketing sites and web apps for local clients — built to be handed over and maintained without me.",
   },
 ];
 
@@ -58,67 +60,7 @@ export default function Home() {
   return (
     <>
       <Nav />
-
-      {/* Hero */}
-      <section className="relative overflow-hidden px-6 pb-24 pt-36 sm:px-12 sm:pt-44">
-        <div className="mx-auto grid max-w-[1200px] items-center gap-16 lg:grid-cols-[1.1fr_0.9fr]">
-          <div>
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-ink-muted">
-              Blantyre — Mzuzu, Malawi
-            </p>
-
-            <h1 className="mt-6 max-w-xl font-display text-[clamp(2.5rem,5vw,5rem)] font-semibold leading-[1.02] tracking-tighter">
-              I build the{" "} <br />
-              <TypingText words={["networks", "interfaces", "scenes"]} />
-              <br />
-              that ideas run on.
-            </h1>
-
-            <p className="mt-6 max-w-md text-base leading-relaxed text-ink-muted">
-              Web apps and SaaS products for small businesses, a CCNA series
-              for Yaza IT Malawi, and 3D work built the hard way —
-              non-destructive, procedural, no shortcuts.
-            </p>
-
-            <div className="mt-10 flex flex-wrap items-center gap-4">
-              <Link
-                href="/projects"
-                className="rounded-full bg-signal-orange px-6 py-3 font-mono text-xs uppercase tracking-[0.15em] text-white transition-transform hover:-translate-y-0.5"
-              >
-                See the work
-              </Link>
-              <Link
-                href="/contact"
-                className="rounded-full border border-signal-blue px-6 py-3 font-mono text-xs uppercase tracking-[0.15em] text-signal-blue transition-colors hover:bg-signal-blue hover:text-white"
-              >
-                Start a project
-              </Link>
-            </div>
-          </div>
-
-          {/* Portrait with oversized ghost text bleeding behind it — the
-              one "text overlapping design" moment on the page. */}
-          <div className="relative mx-auto flex w-full max-w-sm justify-center lg:max-w-none">
-            <span
-              aria-hidden
-              className="pointer-events-none absolute left-1/2 top-1/2 -z-10 -translate-x-1/2 -translate-y-1/2 select-none whitespace-nowrap font-display text-[clamp(4rem,14vw,9rem)] font-bold uppercase leading-none tracking-tighter text-transparent [-webkit-text-stroke:1.5px_var(--color-border)]"
-            >
-              Phoenix
-            </span>
-
-            <Image
-              src="/images/phoenix-hero.png"
-              alt="Phoenix, developer and network educator, adjusting his blazer"
-              width={1200}
-              height={1200}
-              priority
-              className="relative h-auto w-full drop-shadow-none"
-            />
-
-            <TraceLine className="pointer-events-none absolute -right-6 bottom-0 hidden h-[65%] w-auto sm:block" />
-          </div>
-        </div>
-      </section>
+      <Hero />
 
       {/* Stack marquee */}
       <div className="border-y border-border py-4">
@@ -134,28 +76,44 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Domains */}
+      {/* About + pillars */}
       <section className="px-6 py-24 sm:px-12 sm:py-32">
         <div className="mx-auto max-w-[1200px]">
           <Reveal>
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-ink-muted">
-              What I work on
+              N.01 — About
+            </p>
+            <p className="mt-6 max-w-3xl font-display text-[clamp(1.5rem,2.6vw,2.125rem)] font-medium leading-snug tracking-tight">
+              I&rsquo;m Prince Vision Jimu —{" "}
+              <span className="text-signal-blue">Phoenix</span> — a developer,
+              designer, and tech educator based in Blantyre Malawi. I build
+              software, design in both flat and 3D, and teach the networking and
+              programming behind it.
             </p>
           </Reveal>
 
-          <div className="mt-10 grid gap-px overflow-hidden rounded-2xl border border-border sm:grid-cols-3">
-            {DOMAINS.map((domain, i) => (
-              <Reveal key={domain.id} delay={i * 0.08}>
-                <div className="h-full bg-surface-raised p-8">
+          <div className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-border sm:grid-cols-3">
+            {PILLARS.map((pillar, i) => (
+              <Reveal key={pillar.id} delay={i * 0.08}>
+                <div className="flex h-full flex-col bg-surface-raised p-8">
                   <p className="font-mono text-xs text-signal-blue">
-                    {domain.id}
+                    {pillar.id}
                   </p>
                   <h3 className="mt-4 font-display text-xl font-semibold tracking-tight">
-                    {domain.title}
+                    {pillar.title}
                   </h3>
                   <p className="mt-3 text-sm leading-relaxed text-ink-muted">
-                    {domain.body}
+                    {pillar.body}
                   </p>
+                  {pillar.href && (
+                    <Link
+                      href={pillar.href}
+                      className="mt-5 flex items-center gap-1 self-start font-mono text-xs uppercase tracking-[0.15em] text-ink-muted transition-colors hover:text-signal-orange"
+                    >
+                      {pillar.linkLabel}
+                      <ArrowUpRight size={14} />
+                    </Link>
+                  )}
                 </div>
               </Reveal>
             ))}
@@ -208,60 +166,37 @@ export default function Home() {
         </div>
       </section>
 
-      {/* How I work + second portrait */}
-      <section className="px-6 py-24 sm:px-12 sm:py-32">
-        <div className="mx-auto grid max-w-[1200px] items-center gap-16 lg:grid-cols-[0.8fr_1.2fr]">
-          <Reveal className="order-2 flex justify-center lg:order-1">
-            <Image
-              src="/images/phoenix-secondary.png"
-              alt="Phoenix adjusting his watch"
-              width={1200}
-              height={1200}
-              className="h-auto w-full"
-            />
-          </Reveal>
-
-          <Reveal className="order-1 lg:order-2">
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-ink-muted">
-              N.04 — How I work
-            </p>
-            <h2 className="mt-4 max-w-lg font-display text-[clamp(1.75rem,3vw,2.5rem)] font-semibold tracking-tight">
-              Uptime over hype.
-            </h2>
-            <p className="mt-4 max-w-md text-base leading-relaxed text-ink-muted">
-              I'd rather ship something that holds up than something that
-              looks good in a screenshot. That means non-destructive edits in
-              Blender, real content over stock templates, and topologies I've
-              actually tested before I teach them.
-            </p>
-          </Reveal>
-        </div>
-      </section>
 
       {/* Footer / contact */}
       <footer className="border-t border-border px-6 py-16 sm:px-12">
         <div className="mx-auto flex max-w-[1200px] flex-col gap-10 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-ink-muted">
-              N.05 — Get in touch
+              N.06 — Get in touch
             </p>
             <Link
               href="/contact"
               className="mt-4 block font-display text-[clamp(2rem,5vw,3.5rem)] font-semibold tracking-tighter transition-colors hover:text-signal-orange"
             >
-              Let's talk.
+              Let&rsquo;s talk.
             </Link>
           </div>
 
           <div className="flex flex-col gap-2 font-mono text-xs uppercase tracking-[0.15em] text-ink-muted">
-            <a href="#" className="transition-colors hover:text-signal-blue">
-              GitHub
-            </a>
-            <a href="#" className="transition-colors hover:text-signal-blue">
-              YouTube — Yaza IT Malawi
-            </a>
-            <a href="#" className="transition-colors hover:text-signal-blue">
-              LinkedIn
+            {SOCIAL_LINKS.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                className="transition-colors hover:text-signal-blue"
+              >
+                {link.label}
+              </a>
+            ))}
+            <a
+              href={`mailto:${EMAIL}`}
+              className="transition-colors hover:text-signal-blue"
+            >
+              Email
             </a>
           </div>
         </div>
@@ -270,7 +205,7 @@ export default function Home() {
           <span>© {new Date().getFullYear()} Phoenix</span>
           <span className="flex items-center gap-1.5">
             <span className="h-1.5 w-1.5 rounded-full bg-signal-orange" />
-            Mzuzu, MW
+            Blantyre, MW
           </span>
         </div>
       </footer>
