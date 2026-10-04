@@ -63,11 +63,14 @@ export function Hero() {
   const panelHeight = useTransform(scrollYProgress, [0, 1], ["42vh", "100vh"]);
 
   const textOpacity = useTransform(scrollYProgress, [0.05, 0.5], [1, 0]);
-  const rolesBlur = useTransform(
-    scrollYProgress,
-    [0, 0.85],
-    ["blur(0px)", "blur(7px)"]
-  );
+
+  // Mobile-only drift: the roles push out slightly as the section closes over
+  // them, and the figure comes forward as it is overtaken. Both are read from
+  // scale-*[var()] in CSS and reset at md, so desktop stays static. The figure
+  // grows more than the roles because it carries the section once the text is
+  // gone.
+  const rolesScale = useTransform(scrollYProgress, [0, 0.85], [1, 1.15]);
+  const figureScale = useTransform(scrollYProgress, [0, 1], [1, 1.22]);
 
   // Blue spans 50% -> 100% across the whole scroll, so 90% width lands at
   // progress 0.8. Hold it invisible until then, then fade in over the last
@@ -91,7 +94,12 @@ export function Hero() {
 
   const rolesVars =
     animated && !isDesktop
-      ? ({ "--roles-blur": rolesBlur } as React.CSSProperties)
+      ? ({ "--roles-scale": rolesScale } as React.CSSProperties)
+      : undefined;
+
+  const figureVars =
+    animated && !isDesktop
+      ? ({ "--figure-scale": figureScale } as React.CSSProperties)
       : undefined;
 
   return (
@@ -109,7 +117,9 @@ export function Hero() {
             Prince Vision Jimu
           </p>
 
-          <h1 className="mt-4 max-w-md font-display text-[clamp(2.5rem,8.5vw,5.5rem)] font-bold uppercase leading-[0.95] tracking-tighter">
+          {/* vw-driven so the headline breaks to three lines on a narrow phone
+              and still resolves to one comfortable block from md up. */}
+          <h1 className="mt-4 font-display text-[clamp(3.25rem,18vw,5.5rem)] font-bold uppercase leading-[0.9] tracking-tighter md:max-w-md md:text-[clamp(2.5rem,8.5vw,5.5rem)] md:leading-[0.95]">
             <TypingText words={["Create. Build. Design."]} loop={false} />
           </h1>
 
@@ -126,7 +136,7 @@ export function Hero() {
           style={panelVars}
           className="dot-grid absolute bottom-0 right-0 z-0 h-[var(--panel-h,42vh)] w-full overflow-hidden bg-signal-blue md:top-0 md:h-full md:w-[var(--panel-w,50%)]"
         >
-          <p className="absolute right-6 top-6 z-10 font-mono text-[11px] uppercase tracking-[0.2em] text-white/80 sm:right-10 sm:top-10">
+          <p className="absolute left-1/2 top-6 z-10 -translate-x-1/2 whitespace-nowrap text-center font-mono text-[11px] uppercase tracking-[0.2em] text-white/80 md:left-auto md:right-10 md:top-10 md:translate-x-0">
             Available for work
           </p>
 
@@ -134,20 +144,27 @@ export function Hero() {
               sits in the lower band and leaves the roles clear above it;
               on desktop it fills the section's height. */}
 
-          <Image
-            src={PORTRAIT.src}
-            alt={PORTRAIT.alt}
-            width={1000}
-            height={1000}
-            priority
-            className="pointer-events-none absolute inset-x-0 bottom-0 z-0 mx-auto h-[62%] w-auto max-w-full object-contain md:inset-0 md:mx-0 md:h-full md:max-w-[520px]"
-          />
+          <motion.div
+            style={figureVars}
+            className="pointer-events-none absolute inset-x-0 bottom-0 z-0 mx-auto h-[62%] w-auto max-w-full origin-bottom [transform:scale(var(--figure-scale,1))] md:inset-0 md:mx-0 md:h-full md:max-w-[520px] md:[transform:none]"
+          >
+            <Image
+              src={PORTRAIT.src}
+              alt={PORTRAIT.alt}
+              width={1000}
+              height={1000}
+              priority
+              className="h-full w-full object-contain"
+            />
+          </motion.div>
 
-          {/* One word per line, hard against the section's right edge. Mobile
-              hangs from the top of the band; desktop centres vertically. */}
+          {/* One word per line. Mobile centres the stack and pushes it out as
+              the section closes; desktop goes back to the hard right edge,
+              static. The scale rides the same transform as the translate, so
+              origin stays centre and it grows in place. */}
           <motion.ul
             style={rolesVars}
-            className="absolute right-6 top-14 z-10 text-right [filter:var(--roles-blur,none)] sm:right-10 md:top-1/2 md:-translate-y-1/2"
+            className="absolute left-1/2 top-16 z-10 origin-center text-center [transform:translateX(-50%)_scale(var(--roles-scale,1))] md:left-auto md:right-10 md:top-1/2 md:text-right md:[transform:translateY(-50%)]"
           >
             {ROLES.map((role) => (
               <li

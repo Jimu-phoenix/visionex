@@ -25,9 +25,9 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Phoenix — Developer & Network Educator",
+  title: "Phoenix — Developer & Designer",
   description:
-    "Web apps, SaaS products, CCNA network education, and 3D work by Phoenix, based in Lilongwe, Malawi.",
+    "Web apps, SaaS products, and 3D work by Phoenix, based in Blantyre and Mzuzu, Malawi.",
   icons: {
     icon: "/favicon.svg",
   },
