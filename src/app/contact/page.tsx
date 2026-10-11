@@ -83,8 +83,7 @@ export default function ContactPage() {
 
                 <Reveal delay={0.2}>
                   <p className="mt-10 max-w-xs font-mono text-xs leading-relaxed text-white/70">
-                    Based in Malawi, so expect replies in GMT+2. Calls land
-                    better on weekday afternoons.
+                    Based in Malawi, so expect replies in GMT+2.
                   </p>
                 </Reveal>
               </div>
@@ -164,8 +163,7 @@ export default function ContactPage() {
                 No reply? The packet probably got dropped.
               </p>
               <p className="mt-3 max-w-sm text-sm leading-relaxed text-ink-muted">
-                Try the phone number, or check the YouTube channel — most
-                questions I get are already answered in a video.
+                Try the phone number, or check instagram
               </p>
             </Reveal>
 
